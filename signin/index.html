@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- Service Live -- "Sign in with Planning Center" forwarding page, as a plain web page (for a host other than Wix,
+     e.g. GitHub Pages). Same job as signin-forward.js: send the phone on to the church's relay computer, only ever
+     to a local network address. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Signing in to Service Live</title>
+<style>body{font-family:system-ui,sans-serif;background:#0d1218;color:#e6edf5;display:grid;place-items:center;min-height:100vh;margin:0;padding:20px;text-align:center}p{color:#93a2b4}</style>
+</head>
+<body>
+<main><h1>Signing you in…</h1><p id="msg">Taking you back to Service Live.</p></main>
+<script>
+(function () {
+  var LOCAL = /^http:\/\/(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost|169\.254\.\d{1,3}\.\d{1,3}|[A-Za-z0-9-]{1,63}\.local)(?::\d{1,5})?$/;
+  var q = new URLSearchParams(location.search);
+  var part = (q.get('state') || '').split('.').pop();
+  var relay = null;
+  try {
+    var b64 = part.replace(/-/g, '+').replace(/_/g, '/');
+    var origin = atob(b64 + '==='.slice((b64.length + 3) % 4));
+    if (LOCAL.test(origin)) relay = origin;
+  } catch (e) {}
+  if (!relay) { document.getElementById('msg').textContent = 'This page finishes signing in to Service Live from a phone on the church network.'; return; }
+  var keep = new URLSearchParams();
+  ['code', 'state', 'error', 'error_description'].forEach(function (k) { if (q.has(k)) keep.set(k, q.get(k)); });
+  location.replace(relay + '/m/_pco/?' + keep.toString());
+})();
+</script>
+</body>
+</html>
