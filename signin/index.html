@@ -14,7 +14,9 @@
 <main><h1>Signing you in…</h1><p id="msg">Taking you back to Service Live.</p></main>
 <script>
 (function () {
-  var LOCAL = /^http:\/\/(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost|169\.254\.\d{1,3}\.\d{1,3}|[A-Za-z0-9-]{1,63}\.local)(?::\d{1,5})?$/;
+  // the phone's own Service Live: an address on the church network (http, or https on the secure page), or the
+  // church's secure address -- a DuckDNS name (3.0.95). Nothing else is ever forwarded to.
+  var LOCAL = /^(?:https?:\/\/(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost|169\.254\.\d{1,3}\.\d{1,3}|[A-Za-z0-9-]{1,63}\.local)|https:\/\/[A-Za-z0-9-]{1,63}\.duckdns\.org)(?::\d{1,5})?$/;
   var q = new URLSearchParams(location.search);
   var part = (q.get('state') || '').split('.').pop();
   var relay = null;
