@@ -15,8 +15,9 @@
 <script>
 (function () {
   // the phone's own Service Live: an address on the church network (http, or https on the secure page), or the
-  // church's secure address -- a DuckDNS name (3.0.95). Nothing else is ever forwarded to.
-  var LOCAL = /^(?:https?:\/\/(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost|169\.254\.\d{1,3}\.\d{1,3}|[A-Za-z0-9-]{1,63}\.local)|https:\/\/[A-Za-z0-9-]{1,63}\.duckdns\.org)(?::\d{1,5})?$/;
+  // church's secure address -- a DuckDNS name (3.0.95), or the church's own name on Service Live's secure port 47913
+  // (3.0.104; a sign-in code is only any use to the Service Live that started it). Nothing else is ever forwarded to.
+  var LOCAL = /^(?:https?:\/\/(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost|169\.254\.\d{1,3}\.\d{1,3}|[A-Za-z0-9-]{1,63}\.local)|https:\/\/[A-Za-z0-9-]{1,63}\.duckdns\.org)(?::\d{1,5})?$|^https:\/\/(?:[A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,63}:47913$/;
   var q = new URLSearchParams(location.search);
   var part = (q.get('state') || '').split('.').pop();
   var relay = null;
